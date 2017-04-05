@@ -1,4 +1,8 @@
 import Node from "../scripts/node.js"
+const text = "/usr/share/dict/words"
+var fs = require("fs");
+let dictionary = fs.readFileSync(text).toString().trim().split('\n')
+
 export default class Trie {
   constructor() {
     this.root =  new Node()
@@ -62,6 +66,11 @@ export default class Trie {
     return suggestion
   }
 
+  populate() {
+    dictionary.forEach(i=>{
+      this.insert(i)
+    })
+  }
 
 }
 

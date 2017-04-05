@@ -73,7 +73,11 @@ describe("The Trie", ()=>{
   it("should populate the whole dictionary", ()=>{
 
     trie.populate()
-    assert.equal(trie.count, 0)
+    assert.equal(trie.count, 235890)
+    eval(locus)
+    assert.equal(trie.root.children.a.children.a.children.l.address, "aal")
   })
+
+  it()
 
 })
