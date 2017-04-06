@@ -25,24 +25,40 @@ describe("The Trie", ()=>{
     assert.equal(trie.count, 0)
     trie.insert("ball")
     assert.equal(trie.count, 1)
-    assert.equal(trie.root.children.b.children.a.children.l.children.l.address, 'ball')
-    assert.equal(trie.root.children.b.children.a.children.l.children.l.isFinished, true)
+    assert.equal(
+      trie.root.children.b.children.a.
+      children.l.children.l.address, 'ball')
+    assert.equal(trie.root.children.b.
+      children.a.children.l.children.l.isFinished, true)
     trie.insert("balls")
     assert.equal(trie.count, 2)
-    assert.equal(trie.root.children.b.children.a.children.l.children.l.children.s.address, 'balls')
-    assert.equal(trie.root.children.b.children.a.children.l.children.l.children.s.isFinished, true)
+    assert.equal(trie.root.children.b.children.a.
+      children.l.children.l.children.s.address, 'balls')
+    assert.equal(trie.root.children.b.children.a.
+      children.l.children.l.children.s.isFinished, true)
   })
 
+  it("should not count the same word being added twice", ()=>{
+    assert.equal(trie.count(), 2)
+    trie.insert("james")
+    assert.equal(trie.count(), 3)
+    trie.insert("james")
+
+    eval(locus)
+  })
 
   it("should tell whether it is a finished word or not", () => {
 
     trie.insert("gravy")
     assert.equal(trie.root.children.g.isFinished, false)
-    assert.equal(trie.root.children.g.children.r.children.a.children.v.isFinished, false)
-    assert.equal(trie.root.children.g.children.r.children.a.children.v.children.y.isFinished, true)
+    assert.equal(trie.root.children.g.
+      children.r.children.a.children.v.isFinished, false)
+    assert.equal(trie.root.children.g.children.r.
+      children.a.children.v.children.y.isFinished, true)
   })
 
-  it("should find the correct node address", ()=>{
+
+  it("should find the correct node address", () => {
 
     trie.insert("soccer")
     assert.equal(trie.findNode("s").address, "s")
@@ -54,10 +70,13 @@ describe("The Trie", ()=>{
 
   it("should know it is not a word", ()=> {
 
-    assert.equal(trie.findNode("gibaliegoop"), 'No droids here, move along, move along..')
+    assert.equal(trie.findNode("gibaliegoop"),
+     'No droids here, move along, move along..')
     trie.insert("jeditrick")
-    assert.equal(trie.findNode("jeditrick").isFinished,true)
+    assert.equal(trie.findNode("jeditrick").isFinished, true)
   })
+
+
 
   it("should recognize that it isn't a string", ()=>{
 
@@ -84,9 +103,9 @@ describe("The Trie", ()=>{
   })
 
   it("should select a word and arrange the suggestion ", ()=>{
-    // eval(locus)
 
-    assert.deepEqual(trie.suggest("pizz"), ['pizza', 'pizzeria', 'pizzicato', 'pizzle' ])
+    assert.deepEqual(trie.suggest("pizz"), ['pizza',
+      'pizzeria', 'pizzicato', 'pizzle' ])
 
     trie.select("pizzle")
     trie.select("pizzle")
@@ -94,9 +113,8 @@ describe("The Trie", ()=>{
     trie.select("pizzeria")
     trie.select("pizzeria")
     trie.select("pizzicato")
-    assert.deepEqual( trie.suggest("pizz"),['pizzle', 'pizzeria', 'pizzicato', 'pizza'])
+    assert.deepEqual( trie.suggest("pizz"),
+    ['pizzle', 'pizzeria', 'pizzicato', 'pizza'])
 
   })
-
-
 })
