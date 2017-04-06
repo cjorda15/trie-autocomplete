@@ -26,7 +26,8 @@
     "chai": "^3.5.0",
     "eslint": "^3.19.0",
     "fs": "0.0.1-security",
-    "locus": "^2.0.1"
+    "locus": "^2.0.1",
+    "webpack": "^2.3.3"
   },
   "repository": {
     "type": "git",

@@ -15,6 +15,8 @@ export default class Trie {
 
   insert(word) {
     let presentNode = this.root;
+
+    word.toLowerCase()
     let splitWord = word.split("")
     var address = ""
 
@@ -24,7 +26,7 @@ export default class Trie {
         return presentNode = presentNode.children[char]
       }
 
-      presentNode.children[char] = new Node(char);
+      presentNode.children[char] = new Node();
       presentNode = presentNode.children[char]
       address += char
       presentNode.address = address
@@ -39,6 +41,7 @@ export default class Trie {
     if (!(typeof address === typeof "")) {
       return "umm, words contain letters sir"
     }
+    address.toLowerCase()
     let presentNode = this.root;
 
     address.split("").forEach(char=>{
@@ -50,8 +53,13 @@ export default class Trie {
     presentNode : "No droids here, move along, move along.."
   }
 
-  suggest(text) {
-    let nodes = this.findNode(text)
+  suggest(word) {
+    if (!word) {
+      return word
+    }
+    word.toLowerCase()
+
+    let nodes = this.findNode(word)
     var suggestion = []
 
     function filter(nodes) {
@@ -63,7 +71,10 @@ export default class Trie {
       })
     }
     filter(nodes)
-    return suggestion
+
+    let superSuggest = this.bubbleSort(suggestion)
+
+    return superSuggest
   }
 
   populate() {
@@ -72,25 +83,32 @@ export default class Trie {
     })
   }
 
+  select(word) {
+    word.toLowerCase()
+    let selection = this.findNode(word)
+
+    selection.isFinished ? selection.selected++ : null
+  }
+
+  bubbleSort(arr) {
+
+    if (arr.length < 1) {
+      return arr
+    }
+
+    let counter = arr.length
+
+    for (let i = 0; i < arr.length; i++) {
+
+      for (let j = 0; j < counter; j++) {
+
+        let swap = arr[j + 1]
+
+
+        this.findNode((arr[j])).selected < this.findNode((arr[j + 1])).selected ? (arr[j + 1] = arr[j], arr[j] = swap) : null
+      }
+      counter--
+    }
+    return arr
+  }
 }
-
-
-
-// move through nodes and find one that corresponds with
-// address if none return not found or some error
-//         findNode(address) {
-//   let presentNode = this.root;
-//   let splitWord = word.split("")
-//
-//   // move through nodes
-//   splitWord.forEach(char=>{
-//     if (presentNode.children[char]) {
-//       return presentNode = presentNode.children[char]
-//     }
-// }
-// }
-// // needs to return array of child words
-// // find node for address
-// // check if all children are words and add to result array
-// // call function on all children
-// //   suggest(address) {}
