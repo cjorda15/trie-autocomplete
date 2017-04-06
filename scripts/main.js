@@ -27,7 +27,8 @@ enterBtn.addEventListener('click',function(){
   console.log(trie.suggest(textInfo))
 
   trie.suggest(textInfo).forEach(i=>{
-    wordContainer.prepend(i).prepend(<br>)
+    wordContainer.prepend(i)
+
 
   })
 })
