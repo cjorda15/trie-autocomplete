@@ -8,11 +8,13 @@ export default class Trie {
     this.root =  new Node()
     this.count = 0
   }
-
+///returns total count of words inserted
   count() {
     return this.count
   }
-
+//inserts word by first checking if it is in fact a vailid word to insert
+//splits words up and inserts into each node (or follow along the same node path if letter is already present in
+//in the node children list)
   insert(word) {
     let presentNode = this.root;
 
@@ -25,7 +27,7 @@ export default class Trie {
         address += char
         return presentNode = presentNode.children[char]
       }
-
+//when inserted, leave the address on the node to be utilized later as a bread crumb like process or jumping point
       presentNode.children[char] = new Node();
       presentNode = presentNode.children[char]
       address += char
@@ -37,6 +39,8 @@ export default class Trie {
     this.count ++
   }
 
+//utilizes the address on the nodes as jumping point,
+//a helper function for other methods
   findNode(address) {
     if (!(typeof address === typeof "")) {
       return "umm, words contain letters sir"
@@ -53,6 +57,7 @@ export default class Trie {
     presentNode : "No droids here, move along, move along.."
   }
 
+// with the findNode method, it pushes the address in if the address has a value of true for isFinished
   suggest(word) {
     if (!word) {
       return word
@@ -66,23 +71,30 @@ export default class Trie {
       if (nodes.isFinished) {
         suggestion.push(nodes.address)
       }
+
+      //recurisvy apply a forEach to all characters found in the node children to find all words with a value of true for isFinished(aka a word)
+
       Object.keys(nodes.children).forEach((char) => {
         filter(nodes.children[char])
       })
     }
     filter(nodes)
+//with the suggested list, put it thrugh a bubbleSort method(descending order by
+//each nodes selected property value)
 
     let superSuggest = this.bubbleSort(suggestion)
 
     return superSuggest
   }
 
+//inserts each word in the dictionary
   populate() {
     dictionary.forEach(i=>{
       this.insert(i)
     })
   }
 
+//with the select method, increment the word(if it has a finished value of true) by one to be later used by the suggest method
   select(word) {
     word.toLowerCase()
     let selection = this.findNode(word)
@@ -90,6 +102,8 @@ export default class Trie {
     selection.isFinished ? selection.selected++ : null
   }
 
+
+//helper function for the suggestion array. Bubbles down by each of the suggested nodes selected property value
   bubbleSort(arr) {
 
     if (arr.length < 1) {

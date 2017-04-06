@@ -55,6 +55,8 @@ describe("The Trie", ()=>{
   it("should know it is not a word", ()=> {
 
     assert.equal(trie.findNode("gibaliegoop"), 'No droids here, move along, move along..')
+    trie.insert("jeditrick")
+    assert.equal(trie.findNode("jeditrick").isFinished,true)
   })
 
   it("should recognize that it isn't a string", ()=>{
@@ -77,11 +79,12 @@ describe("The Trie", ()=>{
 
   it("should populate the whole dictionary", ()=>{
     trie.populate()
-    assert.equal(trie.count, 235890)
+    assert.equal(trie.count, 235891)
     assert.equal(trie.root.children.a.children.a.children.l.address, "aal")
   })
 
   it("should select a word and arrange the suggestion ", ()=>{
+    // eval(locus)
 
     assert.deepEqual(trie.suggest("pizz"), ['pizza', 'pizzeria', 'pizzicato', 'pizzle' ])
 
@@ -91,7 +94,6 @@ describe("The Trie", ()=>{
     trie.select("pizzeria")
     trie.select("pizzeria")
     trie.select("pizzicato")
-
     assert.deepEqual( trie.suggest("pizz"),['pizzle', 'pizzeria', 'pizzicato', 'pizza'])
 
   })
